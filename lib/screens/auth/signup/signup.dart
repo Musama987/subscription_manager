@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import '../../../utils/app_colors.dart';
+import '../../navbar/navbar.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -225,11 +226,15 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(16),
                             onTap: () {
-                              // Perform Sign Up
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (_) => const PersistentNavbar()),
+                                (route) => false,
+                              );
                             },
                             child: const Center(
                               child: Text(
-                                "Continue",
+                                "Sign Up",
                                 style: TextStyle(
                                   color: AppColors.scaffoldBackground,
                                   fontSize: 15,

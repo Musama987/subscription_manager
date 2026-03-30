@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import '../../../utils/app_colors.dart';
 import '../signup/signup.dart';
 import 'forget_passsword.dart';
+import '../../navbar/navbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -207,11 +208,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(16),
                             onTap: () {
-                              // Perform Login
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (_) => const PersistentNavbar()),
+                                (route) => false,
+                              );
                             },
                             child: const Center(
                               child: Text(
-                                "Continue",
+                                "Sign In",
                                 style: TextStyle(
                                   color: AppColors.scaffoldBackground,
                                   fontSize: 15,
