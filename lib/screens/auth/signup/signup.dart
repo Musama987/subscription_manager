@@ -210,11 +210,11 @@ class _SignupScreenState extends State<SignupScreen> {
                         width: double.infinity,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: AppColors.primaryCyan,
+                          gradient: AppColors.plusButtonGradient,
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primaryCyan.withOpacity(0.3),
+                              color: const Color(0xFF0FA6E5).withOpacity(0.3),
                               blurRadius: 16,
                               spreadRadius: 2,
                               offset: const Offset(0, 4),
@@ -236,7 +236,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               child: Text(
                                 "Sign Up",
                                 style: TextStyle(
-                                  color: AppColors.scaffoldBackground,
+                                  color: Colors.white,
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),

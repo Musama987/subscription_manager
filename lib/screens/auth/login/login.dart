@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+
   bool _obscurePassword = true;
 
   @override
@@ -36,7 +36,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white70, fontSize: 12),
+        ),
         const SizedBox(height: 4),
         SizedBox(
           height: 48,
@@ -49,7 +52,10 @@ class _LoginScreenState extends State<LoginScreen> {
               hintStyle: const TextStyle(color: Colors.white54, fontSize: 14),
               filled: true,
               fillColor: AppColors.scaffoldBackground,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 0,
+              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: const BorderSide(color: Color(0xFF262E3D)),
@@ -103,14 +109,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           children: [
                             Container(
-                              width: 52, 
-                              height: 52, 
+                              width: 52,
+                              height: 52,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: AppColors.surfaceBackground.withOpacity(0.5),
+                                color: AppColors.surfaceBackground.withOpacity(
+                                  0.5,
+                                ),
                               ),
                               child: const Center(
-                                child: Icon(Icons.alarm, size: 26, color: Colors.amber),
+                                child: Icon(
+                                  Icons.alarm,
+                                  size: 26,
+                                  color: Colors.amber,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -134,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      
+
                       const Text(
                         "Sign In to Manage your\nsubscriptions",
                         style: TextStyle(
@@ -151,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         hint: "johndoe@gmail.com",
                         controller: _emailController,
                       ),
-                      
+
                       _buildTextField(
                         label: "Password",
                         hint: "••••••••",
@@ -192,11 +204,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: double.infinity,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: AppColors.primaryCyan,
+                          gradient: AppColors.plusButtonGradient,
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primaryCyan.withOpacity(0.3),
+                              color: const Color(0xFF0FA6E5).withOpacity(0.3),
                               blurRadius: 16,
                               spreadRadius: 2,
                               offset: const Offset(0, 4),
@@ -210,7 +222,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: () {
                               Navigator.pushAndRemoveUntil(
                                 context,
-                                MaterialPageRoute(builder: (_) => const PersistentNavbar()),
+                                MaterialPageRoute(
+                                  builder: (_) => const PersistentNavbar(),
+                                ),
                                 (route) => false,
                               );
                             },
@@ -218,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text(
                                 "Sign In",
                                 style: TextStyle(
-                                  color: AppColors.scaffoldBackground,
+                                  color: Colors.white,
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -231,12 +245,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       Row(
                         children: [
-                          Expanded(child: Divider(color: Colors.white.withOpacity(0.2))),
+                          Expanded(
+                            child: Divider(
+                              color: Colors.white.withOpacity(0.2),
+                            ),
+                          ),
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Text("or", style: TextStyle(color: Colors.white70, fontSize: 12)),
+                            child: Text(
+                              "or",
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 12,
+                              ),
+                            ),
                           ),
-                          Expanded(child: Divider(color: Colors.white.withOpacity(0.2))),
+                          Expanded(
+                            child: Divider(
+                              color: Colors.white.withOpacity(0.2),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
@@ -269,24 +297,40 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     foreground: Paint()
-                                      ..shader = const LinearGradient(
-                                        colors: [Colors.blue, Colors.red, Colors.orange, Colors.green],
-                                      ).createShader(const Rect.fromLTWH(0.0, 0.0, 20.0, 20.0)),
+                                      ..shader =
+                                          const LinearGradient(
+                                            colors: [
+                                              Colors.blue,
+                                              Colors.red,
+                                              Colors.orange,
+                                              Colors.green,
+                                            ],
+                                          ).createShader(
+                                            const Rect.fromLTWH(
+                                              0.0,
+                                              0.0,
+                                              20.0,
+                                              20.0,
+                                            ),
+                                          ),
                                   ),
                                 ),
                               ),
                               const SizedBox(width: 8),
                               const Text(
                                 "Continue with Google",
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      
-                      const Spacer(),
-                      
+
+                      const SizedBox(height: 50),
+
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Row(
@@ -302,7 +346,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: CircleAvatar(
                                       radius: 12,
                                       backgroundColor: Colors.blue[100],
-                                      child: const Icon(Icons.person, size: 16, color: Colors.blue),
+                                      child: const Icon(
+                                        Icons.person,
+                                        size: 16,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                   Positioned(
@@ -310,7 +358,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: CircleAvatar(
                                       radius: 12,
                                       backgroundColor: Colors.orange[100],
-                                      child: const Icon(Icons.person, size: 16, color: Colors.orange),
+                                      child: const Icon(
+                                        Icons.person,
+                                        size: 16,
+                                        color: Colors.orange,
+                                      ),
                                     ),
                                   ),
                                   Positioned(
@@ -318,7 +370,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: CircleAvatar(
                                       radius: 12,
                                       backgroundColor: Colors.green[100],
-                                      child: const Icon(Icons.person, size: 16, color: Colors.green),
+                                      child: const Icon(
+                                        Icons.person,
+                                        size: 16,
+                                        color: Colors.green,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -327,36 +383,63 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(width: 8),
                             RichText(
                               text: const TextSpan(
-                                style: TextStyle(color: Colors.white70, fontSize: 11),
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 11,
+                                ),
                                 children: [
                                   TextSpan(text: "Join "),
-                                  TextSpan(text: "1.4M+", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                                  TextSpan(
+                                    text: "1.4M+",
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   TextSpan(text: " users who are using "),
-                                  TextSpan(text: "Bill Tracker", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                                  TextSpan(
+                                    text: "Bill Tracker",
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                      
+
                       Center(
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0, top: 4.0),
+                          padding: const EdgeInsets.only(
+                            bottom: 16.0,
+                            top: 4.0,
+                          ),
                           child: RichText(
                             text: TextSpan(
-                              style: const TextStyle(color: Colors.white70, fontSize: 12),
+                              style: const TextStyle(
+                                color: Colors.white70,
+                                fontSize: 12,
+                              ),
                               children: [
                                 const TextSpan(text: "Don't have an account? "),
                                 TextSpan(
                                   text: "Sign Up",
-                                  style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-                                  recognizer: TapGestureRecognizer()..onTap = () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (_) => const SignupScreen()),
-                                    );
-                                  },
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const SignupScreen(),
+                                        ),
+                                      );
+                                    },
                                 ),
                               ],
                             ),

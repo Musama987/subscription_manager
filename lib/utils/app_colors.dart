@@ -22,6 +22,12 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
+  static const LinearGradient plusButtonGradient = LinearGradient(
+    colors: [Color(0xFF22D6CB), Color(0xFF0FA6E5)],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+
   // Text Colors
   static const Color textPrimary = Colors.white;
   static const Color textSecondary = Color(0xFF8E99A9);

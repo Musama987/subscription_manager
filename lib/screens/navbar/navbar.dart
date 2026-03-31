@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../utils/app_colors.dart';
 import 'home/home.dart';
+import 'calender/calender.dart';
+import 'analytics/analytics.dart';
+import 'setting/setting.dart';
+import 'home/widgets/add_subscription.dart';
 
 class PersistentNavbar extends StatefulWidget {
   const PersistentNavbar({Key? key}) : super(key: key);
@@ -14,12 +19,12 @@ class _PersistentNavbarState extends State<PersistentNavbar> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const Scaffold(body: Center(child: Text('Calendar Screen', style: TextStyle(color: Colors.white)))),
-    const Scaffold(body: Center(child: Text('Analytics Screen', style: TextStyle(color: Colors.white)))),
-    const Scaffold(body: Center(child: Text('Settings Screen', style: TextStyle(color: Colors.white)))),
+    const CalendarScreen(),
+    const AnalyticsScreen(),
+    const SettingScreen(),
   ];
 
-  Widget _buildNavItem(int index, IconData icon, String label) {
+  Widget _buildNavItem(int index, String iconPath, String label) {
     bool isSelected = _currentIndex == index;
     return GestureDetector(
       onTap: () {
@@ -32,10 +37,14 @@ class _PersistentNavbarState extends State<PersistentNavbar> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            color: isSelected ? AppColors.primaryCyan : Colors.white54,
-            size: 24,
+          SvgPicture.asset(
+            iconPath,
+            colorFilter: ColorFilter.mode(
+              isSelected ? AppColors.primaryCyan : Colors.white54,
+              BlendMode.srcIn,
+            ),
+            width: 24,
+            height: 24,
           ),
           const SizedBox(height: 4),
           Text(
@@ -56,18 +65,16 @@ class _PersistentNavbarState extends State<PersistentNavbar> {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       // IndexedStack preserves the state of all screens so they don't reload when switching tabs.
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       floatingActionButton: Container(
         height: 64,
         width: 64,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
+          gradient: AppColors.plusButtonGradient,
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryCyan.withOpacity(0.3),
+              color: const Color(0xFF0FA6E5).withOpacity(0.3),
               blurRadius: 16,
               spreadRadius: 2,
               offset: const Offset(0, 4),
@@ -75,13 +82,22 @@ class _PersistentNavbarState extends State<PersistentNavbar> {
           ],
         ),
         child: FloatingActionButton(
-          backgroundColor: AppColors.primaryCyan,
+          backgroundColor: Colors.transparent,
           elevation: 0,
           shape: const CircleBorder(),
           onPressed: () {
-            // TODO: Add new subscription action
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddSubscriptionScreen(),
+              ),
+            );
           },
-          child: const Icon(Icons.add, color: AppColors.scaffoldBackground, size: 32),
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 24,
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -91,7 +107,9 @@ class _PersistentNavbarState extends State<PersistentNavbar> {
           highlightColor: Colors.transparent,
         ),
         child: BottomAppBar(
-          color: const Color(0xFF131824), // Match the dark navbar background from design
+          color: const Color(
+            0xFF131824,
+          ), // Match the dark navbar background from design
           shape: const CircularNotchedRectangle(),
           notchMargin: 10.0,
           elevation: 0,
@@ -100,11 +118,11 @@ class _PersistentNavbarState extends State<PersistentNavbar> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildNavItem(0, Icons.home_filled, "Home"),
-                _buildNavItem(1, Icons.calendar_today, "Calendar"),
+                _buildNavItem(0, 'assets/icons/home.svg', "Home"),
+                _buildNavItem(1, 'assets/icons/calender.svg', "Calendar"),
                 const SizedBox(width: 48), // Space for floating button
-                _buildNavItem(2, Icons.analytics_outlined, "Analytics"),
-                _buildNavItem(3, Icons.settings_outlined, "Settings"),
+                _buildNavItem(2, 'assets/icons/analytics.svg', "Analytics"),
+                _buildNavItem(3, 'assets/icons/setting.svg', "Settings"),
               ],
             ),
           ),
