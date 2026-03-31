@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "390203628509",
+    "project_id": "subscription-manager-db33b",
+    "storage_bucket": "subscription-manager-db33b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390203628509:android:36ae7d33f718d50c99b434",
+        "android_client_info": {
+          "package_name": "com.example.subscription_manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390203628509-nc8seag5035sn1nbjrt9398b62mi1bkh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_jjyJivfoR59GVMlrpSBPRJYgseiT4QI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390203628509-nc8seag5035sn1nbjrt9398b62mi1bkh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
