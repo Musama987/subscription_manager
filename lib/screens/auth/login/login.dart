@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/auth_provider.dart';
 import '../../../utils/app_colors.dart';
 import '../signup/signup.dart';
 import 'forget_passsword.dart';
-import '../../navbar/navbar.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -84,6 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthServiceProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
@@ -219,24 +221,43 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.transparent,
                           child: InkWell(
                             borderRadius: BorderRadius.circular(16),
-                            onTap: () {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const PersistentNavbar(),
-                                ),
-                                (route) => false,
+                            onTap: authProvider.isLoading ? null : () async {
+                              final email = _emailController.text;
+                              final password = _passwordController.text;
+                              if (email.isEmpty || password.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Please fill all fields')),
+                                );
+                                return;
+                              }
+                              
+                              final error = await context.read<AuthServiceProvider>().signIn(
+                                email: email,
+                                password: password,
                               );
+                              
+                              if (error != null) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(error), backgroundColor: AppColors.error),
+                                  );
+                                }
+                              }
                             },
-                            child: const Center(
-                              child: Text(
-                                "Sign In",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                            child: Center(
+                              child: authProvider.isLoading
+                                ? const SizedBox(
+                                    width: 24, height: 24,
+                                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                  )
+                                : const Text(
+                                    "Sign In",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                             ),
                           ),
                         ),
@@ -273,7 +294,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: double.infinity,
                         height: 48,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: authProvider.isLoading ? null : () async {
+                            final error = await context.read<AuthServiceProvider>().signInWithGoogle();
+                            if (error != null && error != 'Google sign in canceled') {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(error), backgroundColor: AppColors.error),
+                                );
+                              }
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             foregroundColor: Colors.black,

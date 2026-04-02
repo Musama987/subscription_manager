@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import '../../../../utils/app_colors.dart';
 import 'widgets/export_data.dart';
 import 'widgets/help_center.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/auth_provider.dart';
+import '../../auth/wrapper.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -138,7 +141,71 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  Widget _buildLogoutButton() {
+  void _handleLogout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          backgroundColor: AppColors.cardBackground,
+          title: const Text(
+            "Log Out",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          content: const Text(
+            "Are you sure you want to log out?",
+            style: TextStyle(color: AppColors.textSecondary),
+          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text(
+                "Cancel",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(dialogContext); // Close dialog
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) => const Center(
+                    child: CircularProgressIndicator(color: AppColors.primaryCyan),
+                  ),
+                );
+                try {
+                  await context.read<AuthServiceProvider>().signOut();
+                  if (context.mounted) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) => const AuthWrapper()),
+                      (route) => false,
+                    );
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    Navigator.pop(context); // Close loading dialog
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Error logging out: $e"),
+                        backgroundColor: Colors.redAccent,
+                      ),
+                    );
+                  }
+                }
+              },
+              child: const Text(
+                "Log Out",
+                style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildLogoutButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       height: 50,
@@ -149,9 +216,7 @@ class _SettingScreenState extends State<SettingScreen> {
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        onPressed: () {
-          // Add your logout logic here
-        },
+        onPressed: () => _handleLogout(context),
         child: const Text(
           "Log Out",
           style: TextStyle(
@@ -295,7 +360,7 @@ class _SettingScreenState extends State<SettingScreen> {
               const SizedBox(height: 32),
               _buildPrimaryButton("Save Setting", () {}),
               const SizedBox(height: 16),
-              _buildLogoutButton(),
+              _buildLogoutButton(context),
             ],
           ),
         ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/auth_provider.dart';
 import '../../../utils/app_colors.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
@@ -56,6 +58,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthServiceProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
@@ -139,18 +143,43 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           color: Colors.transparent,
                           child: InkWell(
                             borderRadius: BorderRadius.circular(16),
-                            onTap: () {
-                              // Perform password reset action
+                            onTap: authProvider.isLoading ? null : () async {
+                              final email = _emailController.text;
+                              if (email.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Please enter your email')),
+                                );
+                                return;
+                              }
+                              
+                              final error = await context.read<AuthServiceProvider>().resetPassword(email);
+                              if (context.mounted) {
+                                if (error != null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(error), backgroundColor: AppColors.error),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Password reset link sent!'), backgroundColor: AppColors.success),
+                                  );
+                                  Navigator.pop(context);
+                                }
+                              }
                             },
-                            child: const Center(
-                              child: Text(
-                                "Send Reset Link",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                            child: Center(
+                              child: authProvider.isLoading
+                                ? const SizedBox(
+                                    width: 24, height: 24,
+                                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                  )
+                                : const Text(
+                                    "Send Reset Link",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                             ),
                           ),
                         ),

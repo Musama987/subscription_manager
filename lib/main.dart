@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
-import 'screens/onboarding/onboarding.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'providers/auth_provider.dart';
+import 'screens/auth/wrapper.dart';
 import 'utils/app_themes.dart';
 
-void main() {
-  runApp(const SubscriptionManagerApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthServiceProvider()),
+      ],
+      child: const SubscriptionManagerApp(),
+    ),
+  );
 }
 
 class SubscriptionManagerApp extends StatelessWidget {
@@ -15,7 +28,7 @@ class SubscriptionManagerApp extends StatelessWidget {
       title: 'Subscription Manager',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: const OnboardingScreen(),
+      home: const AuthWrapper(),
     );
   }
 }
